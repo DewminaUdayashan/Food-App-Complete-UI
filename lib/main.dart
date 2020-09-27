@@ -2,10 +2,11 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:food_app/FoodDetail.dart';
 
 void main() => runApp(
   DevicePreview(
-    enabled: !kReleaseMode,
+    enabled: kReleaseMode,
     builder: (context) => MyApp(),
   ),
 );
@@ -28,9 +29,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List img = [
-    'assets/img/1.png',
-    'assets/img/2.png',
     'assets/img/3.png',
+    'assets/img/2.png',
+    'assets/img/1.png',
   ];
 
   List names = [
@@ -57,7 +58,7 @@ class _HomeState extends State<Home> {
               decoration: BoxDecoration(
                   color: Colors.red[900],
                   borderRadius:
-                      BorderRadius.only(bottomLeft: Radius.circular(40))),
+                      BorderRadius.only(bottomLeft: Radius.circular(40),),),
               child: Column(
                 children: [
                   SizedBox(
@@ -156,7 +157,7 @@ class _HomeState extends State<Home> {
                     },
                   ),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(height: 4,),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -325,74 +326,97 @@ class _FoodItemCardState extends State<FoodItemCard> {
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Material(
-        borderRadius: BorderRadius.circular(15),
-        elevation: 8,
-        child: Container(
-          height: height * 0.2,
-          width: width * 0.5,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
-          child: Stack(
-            children: [
-              Positioned(
-                right: 0,
-                left: 165,
-                top: 0,
-                child: Container(
-                  height: 40,
-                  width: 20,
-                  decoration: BoxDecoration(
-                      color: Colors.red[900],
-                      borderRadius:
-                          BorderRadius.only(topRight: Radius.circular(15))),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.add_shopping_cart,
-                        color: Colors.white,
-                        size: 20,
+      child: InkWell(
+        onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodDetails(
+          name: widget.name,
+          image: widget.imgPath,
+          description : widget.description,
+        ),),),
+        child: Material(
+          borderRadius: BorderRadius.circular(15),
+          elevation: 8,
+          child: Container(
+            height: height * 0.2,
+            width: width * 0.5,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+            child: Stack(
+              children: [
+                Positioned(
+                  right: 0,
+                  left: 165,
+                  top: 0,
+                  child: Container(
+                    height: 40,
+                    width: 20,
+                    decoration: BoxDecoration(
+                        color: Colors.red[900],
+                        borderRadius:
+                            BorderRadius.only(topRight: Radius.circular(15))),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.add_shopping_cart,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.name,
-                      style: TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 17,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 7,
-                    ),
-                    Text('150LKR'),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Image.asset(
+                Positioned(
+                  top: 80,
+                  left: 20,
+                  right: 10,
+                  child: Hero(
+                    tag: 'shadow${widget.imgPath}',
+                    child: Image.asset(
                       widget.imgPath,
                       fit: BoxFit.cover,
+                      color: Colors.black.withOpacity(0.3),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              Positioned(
-                bottom: 10,
-                left: 0,
-                right: 0,
-                child: Icon(Icons.subdirectory_arrow_left),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.name,
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 17,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 7,
+                      ),
+                      Text('150LKR'),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Hero(
+                        tag: 'image${widget.imgPath}',
+                        child: Image.asset(
+                          widget.imgPath,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: 10,
+                  left: 0,
+                  right: 0,
+                  child: Icon(Icons.subdirectory_arrow_left),
+                )
+              ],
+            ),
           ),
         ),
       ),
